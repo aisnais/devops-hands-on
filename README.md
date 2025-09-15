@@ -29,6 +29,7 @@ Checklist:
 
 * [ ] Repo cloned
 * [ ] Intro file added
+* [ ] PR opened
 
 ---
 
@@ -44,119 +45,194 @@ git commit -m "add git notes"
 git push -u origin task-01-git
 ```
 
-Open PR → Mentor will merge after review.
-
----
-
-## Task 02 — Add Simple Code & Test
-
-**Goal:** Create a small Python script and run it.
-
-```bash
-echo "print('hello world')" > app.py
-python3 app.py
-```
-
-Commit and push app.py to a new branch.
-
 Checklist:
 
-* [ ] Script runs locally and prints hello world
+* [ ] New branch created
+* [ ] File committed
+* [ ] PR opened
 
 ---
 
-## Task 03 — GitHub Actions CI
+## Task 02 — Linux Basics (pwd, ls, cd)
 
-**Goal:** Run the script in CI.
+**Goal:** Practice basic Linux navigation.
+
+Commands to run:
 
 ```bash
-mkdir -p .github/workflows
-cat > .github/workflows/ci.yml <<'YAML'
-name: CI
-on: [push, pull_request]
-jobs:
-  run:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run app
-        run: python3 app.py
-YAML
+pwd
+ls -l
+mkdir practice && cd practice
+touch file1 file2
+ls -l
+```
 
-git add .github/workflows/ci.yml
-git commit -m "add CI workflow"
-git push -u origin task-03-ci
+Commit your notes:
+
+```bash
+echo "Practiced pwd, ls, cd, mkdir, touch" > linux-notes.txt
+git add linux-notes.txt
+git commit -m "add linux basics notes"
+git push -u origin task-02-linux-basics
 ```
 
 Checklist:
 
-* [ ] Workflow runs and shows output in Actions tab
+* [ ] Practiced pwd, ls, mkdir, touch
+* [ ] Notes committed
+* [ ] PR opened
 
 ---
 
-## Task 04 — Docker Basics
+## Task 03 — File Maintenance & Permissions
 
-**Goal:** Run the app in a container.
+**Goal:** Learn file creation, renaming, and permissions.
+
+Commands to run:
 
 ```bash
-cat > Dockerfile <<'DOCK'
-FROM python:3.11-slim
-COPY app.py .
-CMD ["python", "app.py"]
-DOCK
+mv file1 file1-renamed
+cp file2 file2-copy
+rm file2-copy
+chmod 600 file1-renamed
+ls -l
+```
 
-docker build -t devops-app:0.1 .
-docker run --rm devops-app:0.1
+Commit your learnings:
+
+```bash
+echo "Practiced mv, cp, rm, chmod" >> linux-notes.txt
+git add linux-notes.txt
+git commit -m "update notes with file maintenance"
+git push
 ```
 
 Checklist:
 
-* [ ] Image builds successfully
-* [ ] Container prints hello world
+* [ ] Practiced mv, cp, rm, chmod
+* [ ] Notes updated
 
 ---
 
-## Task 05 — Monitoring (Quick)
+## Task 04 — Pipes & Redirection
 
-**Goal:** Run Prometheus + Grafana quickly.
+**Goal:** Use >, >>, | and some useful commands.
+
+Commands to run:
 
 ```bash
-mkdir monitoring
-cd monitoring
-cat > docker-compose.yml <<'YAML'
-version: '3'
-services:
-  prometheus:
-    image: prom/prometheus
-    ports:
-      - "9090:9090"
-  grafana:
-    image: grafana/grafana
-    ports:
-      - "3000:3000"
-YAML
-
-docker compose up -d
+echo "hello world" > output.txt
+echo "another line" >> output.txt
+cat output.txt | grep hello
+ls /etc | wc -l
 ```
 
-Visit Grafana at [http://localhost:3000](http://localhost:3000).
+Commit your learnings:
+
+```bash
+echo "Practiced redirection and pipes" >> linux-notes.txt
+git add linux-notes.txt
+git commit -m "add redirection and pipes notes"
+git push
+```
+
+Checklist:
+
+* [ ] Practiced >, >>, |, wc, grep
 
 ---
 
-## Task 06 — Deploy to Cloud or VM (Optional)
+## Task 05 — Nginx Web Server
 
-If you have access, run the Docker image on a small EC2 instance or any VM.
+**Goal:** Install nginx and serve custom page.
+
+Commands to run:
+
+```bash
+sudo apt update && sudo apt install -y nginx
+sudo systemctl start nginx
+curl http://localhost
+```
+
+Replace default index page:
+
+```bash
+echo "<h1>Hello from DevOps!</h1>" | sudo tee /var/www/html/index.html
+sudo systemctl reload nginx
+```
+
+Commit a screenshot or note:
+
+```bash
+echo "Deployed custom nginx page" >> web-notes.txt
+git add web-notes.txt
+git commit -m "add nginx notes"
+git push -u origin task-05-nginx
+```
+
+Checklist:
+
+* [ ] Nginx installed
+* [ ] Custom page displayed
+* [ ] Notes committed
 
 ---
 
-# Mentor Quick Cheatsheet
+## Task 06 — SQLite Database
 
-**Git:** `git status`, `git checkout -b branch`, `git add .`, `git commit -m "msg"`, `git push`
+**Goal:** Create small database and query it.
 
-**Docker:** `docker build -t name .`, `docker run --rm name`
+Commands to run:
 
-**CI:** Check Actions tab → rerun jobs if needed.
+```bash
+sudo apt install -y sqlite3
+sqlite3 test.db "create table users(id int, name text);"
+sqlite3 test.db "insert into users values(1,'Alice');"
+sqlite3 test.db "select * from users;"
+```
 
-**Monitoring:** `docker compose up -d`, visit Grafana at :3000.
+Commit your learnings:
 
-Keep review light — just check that tasks run and output looks good.
+```bash
+echo "Practiced sqlite3 basic commands" >> db-notes.txt
+git add db-notes.txt
+git commit -m "add sqlite notes"
+git push -u origin task-06-sqlite
+```
+
+Checklist:
+
+* [ ] Table created
+* [ ] Data inserted and selected
+* [ ] Notes committed
+
+---
+
+## Task 07 — Bash Script & Cronjob
+
+**Goal:** Create a script and schedule it.
+
+Commands to run:
+
+```bash
+echo -e "#!/bin/bash\necho 'Hello, today is $(date)'" > hello.sh
+chmod +x hello.sh
+./hello.sh
+crontab -e
+# Add: * * * * * /path/to/hello.sh >> /tmp/hello.log 2>&1
+```
+
+Commit your learnings:
+
+```bash
+echo "Created hello.sh and scheduled cron" >> script-notes.txt
+git add script-notes.txt
+git commit -m "add bash script and cron notes"
+git push -u origin task-07-bash-cron
+```
+
+Checklist:
+
+* [ ] Script created and runs
+* [ ] Cronjob tested
+* [ ] Notes committed
